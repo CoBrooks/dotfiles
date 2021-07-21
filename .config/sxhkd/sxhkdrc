@@ -127,3 +127,7 @@ super + alt + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# move to other monitor and focus
+super + shift + equal
+    bspc node -m next --follow
