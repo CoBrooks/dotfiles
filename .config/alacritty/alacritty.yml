@@ -50,7 +50,7 @@ window:
     y: 4
 
   # Spread additional padding evenly around the terminal content.
-  #dynamic_padding: false
+  dynamic_padding: true
 
   # Window decorations
   #
@@ -111,7 +111,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Fira Code
+    family: "JetBrainsMono Nerd Font"
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -122,7 +122,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Fira Code
+    family: "JetBrainsMono Nerd Font"
 
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -133,7 +133,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Fira Code
+    family: "JetBrainsMono Nerd Font"
 
     # The `style` can be specified to pick a specific face.
     style: Italic
@@ -144,13 +144,13 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Fira Code
+    family: "JetBrainsMono Nerd Font"
 
     # The `style` can be specified to pick a specific face.
     style: Bold Italic
 
   # Point size
-  size: 11.0
+  size: 10.5
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -175,34 +175,38 @@ font:
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
-# Colors (Nord)
+# Colors (OneDark)
 colors:
-   # Default colors
-   primary:
-     background: '#2E3440'
-     foreground: '#D8DEE9'
+  # Default colors
+  primary:
+    background: '0x1e222a'
+    foreground: '0xabb2bf'
 
-   # Normal colors
-   normal:
-     black:   '#3B4252'
-     red:     '#BF616A'
-     green:   '#A3BE8C'
-     yellow:  '#EBCB8B'
-     blue:    '#81A1C1'
-     magenta: '#B48EAD'
-     cyan:    '#88C0D0'
-     white:   '#E5E9F0'
+  # Normal colors
+  normal:
+    black:   '0x20232A'
+    red:     '0xe86671'
+    green:   '0x98c379'
+    yellow:  '0xe0af68'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0x798294'
 
-   # Bright colors
-   bright:
-     black:   '#4C566A'
-     red:     '#BF616A'
-     green:   '#A3BE8C'
-     yellow:  '#EBCB8B'
-     blue:    '#81A1C1'
-     magenta: '#B48EAD'
-     cyan:    '#8FBCBB'
-     white:   '#ECEFF4'
+  # Bright colors
+  bright:
+    black:   '0x21252b'
+    red:     '0xe86671'
+    green:   '0x98c379'
+    yellow:  '0xe0af68'
+    blue:    '0x61afef'
+    magenta: '0xc678dd'
+    cyan:    '0x56b6c2'
+    white:   '0xabb2bf'
+
+  indexed_colors:
+    - { index: 16, color: '0xd19a66' }
+    - { index: 17, color: '0xf65866' }
 
 # Bell
 #

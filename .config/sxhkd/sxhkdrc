@@ -22,6 +22,10 @@ super + Escape
 super + {z, x, c}
     {alacritty, firefox, code}
 
+# Suspend
+ctrl + alt + F6
+	systemctl suspend
+
 #
 # bspwm hotkeys
 #

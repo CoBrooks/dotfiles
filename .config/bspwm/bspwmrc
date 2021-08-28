@@ -7,29 +7,32 @@ bspc monitor HDMI-A-0 -d VI VII VIII IX X
 
 bspc config border_width         2
 bspc config window_gap          12
-bspc config focused_border_color "#4C566A"
-bspc config normal_border_color "#3B4252"
-bspc config active_border_color "#3B4252"
+bspc config focused_border_color "#484E58"
+bspc config normal_border_color "#21252B"
+bspc config active_border_color "#21252B"
+
+bspc rule -a firefox desktop=^6
+bspc rule -a discord desktop=^7
 
 bspc config split_ratio          0.50
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
-bspc rule -a Gimp desktop='^8' state=floating follow=on
-bspc rule -a Chromium desktop='^2'
-bspc rule -a mplayer2 state=floating
-bspc rule -a Kupfer.py focus=on
-bspc rule -a Screenkey manage=off
-
 # Set resolution
 xrandr --output HDMI-A-0 --mode 1920x1200 --rate 60.00 --output HDMI-A-1 --mode 1920x1200 --rate 60.00 &
+
+# Set brightness
+xrandr --output HDMI-A-0 --brightness 1.1 --output HDMI-A-1 --brightness 1.1 &
+
+# Set mouse speed
+xset m 4/5 5 &
 
 # Swap caps+escape
 setxkbmap -option caps:swapescape &
 
 # Wallpaper
-nitrogen --head=0 --set-zoom-fill ~/Pictures/Wallpapers/nord_astro.png &
-nitrogen --head=1 --set-zoom-fill ~/Pictures/Wallpapers/nord_astro.png &
+nitrogen --head=0 --set-zoom-fill ~/Pictures/Wallpapers/onedark_landscape.jpg &
+nitrogen --head=1 --set-zoom-fill ~/Pictures/Wallpapers/onedark_landscape.jpg &
 
 # Bar
 sh ~/.config/polybar/launch.sh &
@@ -39,7 +42,12 @@ picom -f &
 
 # Audio
 pulseaudio --kill && pulseaudio &
-mpd &
+mpd --kill && pkill -9 mpd && sudo mpd ~/.config/mpd/mpd.conf &
 
-# Launch terminal on startup
+# Notifications
+dunst &
+
+# Launch apps on startup
 alacritty &
+firefox &
+discord &
