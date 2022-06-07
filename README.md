@@ -1,16 +1,10 @@
-# My Dotfiles
-
-## Screenshot
-
-![](images/screenshot.png)
+# My Dotfiles (Laptop)
 
 ## Includes configuration for...
-- BSPWM (Window Manager)
-- SXHKD (Key Bindings)
-- NeoVim via [NvChad](https://github.com/NvChad/NvChad) (IDE)
-- Dunst (Notifications)
-- Polybar (Status Bar)
+- Sway (Window Manager)
+- Vim
+- i3status-rs (Status Bar)
 - Alacritty (Terminal Emulator)
 - ZSH + OhMyZsh (Shell)
 
-in addition to theming (OneDark) and the wallpaper
+in addition to theming (gruvbox) and the wallpaper

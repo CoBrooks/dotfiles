@@ -1,0 +1,28 @@
+theme = "gruvbox-dark"
+icons = "awesome6"
+
+[[block]]
+block = "time"
+format = "%a %d/%m %I:%M %p"
+
+[[block]]
+block = "cpu"
+interval = 1
+format = "{barchart} {utilization}"
+
+[[block]]
+block = "networkmanager"
+on_click = "alacritty -e nmtui"
+device_format = "{icon}{ap} {ips}"
+
+[[block]]
+block = "speedtest"
+interval = 1800
+format = "{speed_down*_b:3;M} {speed_up*_b:3;M}"
+
+[[block]]
+block = "battery"
+interval = 10
+driver = "upower"
+format = "{percentage}"
+
