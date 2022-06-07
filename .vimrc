@@ -15,6 +15,9 @@ call plug#end()
 set background=dark
 colorscheme gruvbox-material
 
+" Fix comment bg
+hi Comment ctermfg=NONE 
+
 " LightLine
 set laststatus=2
 set noshowmode
@@ -67,6 +70,7 @@ let g:ale_set_quicklist = 0
 
 " Explorer
 let g:netrw_liststyle = 3
+let g:netrw_list_hide = netrw_gitignore#Hide().',\.swp$,\.git/'
 
 " General Options
 set tabstop=4
