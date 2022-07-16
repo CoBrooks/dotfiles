@@ -27,6 +27,10 @@
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
     };
+
+    iosevka-custom = {
+      url = "path:./fonts";
+    };
   };
 
   outputs = { 
@@ -35,6 +39,7 @@
     flake-utils, 
     rust-overlay, 
     nixos-generators,
+    iosevka-custom,
     ... 
   }@inputs:
     let
@@ -49,7 +54,10 @@
 
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [ rust-overlay.overlays.default ];
+        overlays = [ 
+          rust-overlay.overlays.default 
+          iosevka-custom.nerd-font
+        ];
       };
 
       themes = import ./themes { inherit pkgs; };

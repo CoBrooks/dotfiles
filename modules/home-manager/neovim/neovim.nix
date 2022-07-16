@@ -10,6 +10,8 @@ in {
   programs.neovim.enable = true;
   programs.neovim.extraPackages = [ 
     pkgs.rust-analyzer 
+    pkgs.sumneko-lua-language-server
+    pkgs.unzip
     pkgs.ripgrep
   ];
 
