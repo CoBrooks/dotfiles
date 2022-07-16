@@ -30,6 +30,7 @@
 
     iosevka-custom = {
       url = "path:./fonts";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -56,8 +57,9 @@
         inherit system;
         overlays = [ 
           rust-overlay.overlays.default 
-          iosevka-custom.nerd-font
+          iosevka-custom.overlay
         ];
+        config.allowUnfree = true;
       };
 
       themes = import ./themes { inherit pkgs; };
@@ -66,7 +68,7 @@
     in rec {
       nixosConfigurations = {
         cbrooks-laptop = nixosSystem {
-          inherit system;
+          inherit system pkgs;
 
           modules = [
             ./nixos/configuration.nix
