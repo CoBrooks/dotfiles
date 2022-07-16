@@ -1,5 +1,7 @@
 { pkgs, config, theme, ... }: 
 {
+  home.packages = [ pkgs.bemenu ];
+
   wayland.windowManager.sway = {
     enable = true;
     config = {

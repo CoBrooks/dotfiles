@@ -2,19 +2,41 @@
   description = "NixOS Config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
 
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+    };
 
-    hardware.url = "github:nixos/nixos-hardware"; 
-    
-    rust-overlay.url = "github:oxalica/rust-overlay";
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-hardware = {
+      url = "github:nixos/nixos-hardware";
+    };
+
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, flake-utils, rust-overlay, ... }@inputs:
+  outputs = { 
+    nixpkgs, 
+    home-manager, 
+    flake-utils, 
+    rust-overlay, 
+    nixos-generators,
+    ... 
+  }@inputs:
     let
       # Bring some functions into scope (from builtins and other flakes)
       inherit (builtins) attrValues;
@@ -45,6 +67,7 @@
               environment.systemPackages = [ 
                 # Add Rust to system
                 pkgs.rust-bin.stable.latest.default 
+                pkgs.gcc
               ];
             }
           ];
@@ -87,5 +110,10 @@
       devShells = eachDefaultSystemMap (system: {
         default = import ./shell.nix { pkgs = packages.${system}; };
       });
+
+      iso = nixos-generators.nixosGenerate {
+        inherit pkgs;
+        format = "install-iso";
+      };
     };
 }
