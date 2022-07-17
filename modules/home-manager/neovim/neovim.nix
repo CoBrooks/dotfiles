@@ -12,6 +12,10 @@ let
 in {
   home.packages = [ pkgs.rust-analyzer ];
 
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
+
   programs.neovim = {
     enable = true;
     extraConfig = ''

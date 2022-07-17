@@ -1,3 +1,5 @@
+require "plugins"
+
 local cmd = vim.cmd
 local fn = vim.fn
 local g = vim.g
@@ -26,10 +28,6 @@ require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true;
   }
-}
-
-require('indent_blankline').setup {
-  show_current_context = true,
 }
 
 require('lualine').setup {
