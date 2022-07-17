@@ -1,33 +1,42 @@
-{ pkgs, config, lib, theme, ... }: 
-with builtins; let 
-  nvchad = fetchGit {
-    url = "https://github.com/NvChad/NvChad";
-    rev = "ce027efbe9569711b19f307f40c81e27f79ebb96";
-
-    ref = "main";
+{ pkgs, config, theme, ... }: 
+let 
+  nvim-base16 = pkgs.vimUtils.buildVimPlugin {
+    name = "nvim-base16";
+    src = pkgs.fetchFromGitHub {
+      owner = "RRethy";
+      repo = "nvim-base16";
+      rev = "da2a27cbda9b086c201b36778e7cdfd00966627a";
+      sha256 = "RkPEcTkrnZDj9Mx2wlKX2VKsk68+/AZsyPQuJ7ezFKg=";
+    };
   };
 in {
-  programs.neovim.enable = true;
-  programs.neovim.extraPackages = [ 
-    pkgs.rust-analyzer 
-    pkgs.sumneko-lua-language-server
-    pkgs.unzip
-    pkgs.ripgrep
-  ];
+  home.packages = [ pkgs.rust-analyzer ];
 
-  home.file.".config/nvim" = {
-    recursive = true;
-    source = nvchad.outPath;
-    onChange = "rm .config/nvim/init.vim";
-  };
-
-  home.file.".config/nvim/lua/custom/init.lua" = {
-    recursive = true;
-    text = readFile ./init.lua;
-  };
-  
-  home.file.".config/nvim/lua/custom/chadrc.lua" = {
-    recursive = true;
-    text = readFile ./chadrc.lua;
+  programs.neovim = {
+    enable = true;
+    extraConfig = ''
+      lua << EOF
+      ${builtins.readFile ./init.lua}
+      cmd[[colorscheme base16-${theme.name}]]
+    '';
+    plugins = with pkgs.vimPlugins; [
+      nvim-base16
+      (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+      vim-nix
+      lualine-nvim
+    ];
+    coc = {
+      enable = true;
+      settings = {
+        suggest.enablePreview = true;
+        languageserver = {
+          rust = {
+            command = "rust-analyzer";
+            rootPatterns = [ "Cargo.toml" ];
+            filetypes = [ "rust" ];
+          };
+        };
+      };
+    };
   };
 }
