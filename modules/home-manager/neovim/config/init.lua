@@ -20,11 +20,16 @@ opt.hidden = true
 opt.shiftwidth = 2
 opt.smartindent = true
 opt.signcolumn = "number"
+opt.updatetime = 400
 
 require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true;
   }
+}
+
+require('indent_blankline').setup {
+  show_current_context = true,
 }
 
 require('lualine').setup {
