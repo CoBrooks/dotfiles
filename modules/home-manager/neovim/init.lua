@@ -24,6 +24,10 @@ opt.smartindent = true
 opt.signcolumn = "number"
 opt.updatetime = 400
 
+require('indent_blankline').setup {
+  show_current_context = true,
+}
+
 require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true;
