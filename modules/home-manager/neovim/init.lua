@@ -1,13 +1,12 @@
 require('impatient')
 
-local cmd = vim.cmd
 local fn = vim.fn
 local g = vim.g
 local opt = vim.opt
 
-cmd "filetype plugin on"
-cmd "set noshowmode"
-cmd "set termguicolors"
+vim.cmd "filetype plugin on"
+vim.cmd "set noshowmode"
+vim.cmd "set termguicolors"
 
 g.mapleader = ' '
 g.maplocalleader = ','
@@ -36,10 +35,22 @@ require('nvim-treesitter.configs').setup {
 
 require('lualine').setup {
   options = {
+    section_separators = '',
+    component_separators = '',
     theme = 'gruvbox-material',
   },
   tabline = {
-    lualine_a = {'buffers'},
+    lualine_a = {
+      {
+        'buffers',
+        symbols = {
+          alternate_file = ''
+        },
+        filetype_names = {
+          TelescopePrompt = '',
+        }
+      }
+    },
     lualine_b = {},
     lualine_c = {},
     lualine_x = {},
@@ -82,7 +93,7 @@ cmp_window.info = function (self)
 end
 
 -- Fix Completion Menu Background --
-cmd "hi CmpItemAbbr guibg=None"
+vim.cmd "hi CmpItemAbbr guibg=None"
 
 local lspkind = require('lspkind')
 cmp.setup {
@@ -116,8 +127,8 @@ cmp.setup {
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
+      -- elseif luasnip.expand_or_jumpable() then
+      --   luasnip.expand_or_jump()
       elseif has_words_before() then
         cmp.complete()
       else
@@ -128,8 +139,8 @@ cmp.setup {
     ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+      -- elseif luasnip.jumpable(-1) then
+      --   luasnip.jump(-1)
       else
         fallback()
       end
@@ -180,3 +191,74 @@ lspconfig["sumneko_lua"].setup {
     }
   }
 }
+
+require('telescope').setup {
+  defaults = {
+    mappings = {
+      i = {
+        ["<Tab>"] = require('telescope.actions').move_selection_next,
+        ["<S-Tab>"] = require('telescope.actions').move_selection_previous
+      },
+      n = {
+        ["<Tab>"] = require('telescope.actions').move_selection_next,
+        ["<S-Tab>"] = require('telescope.actions').move_selection_previous
+      }
+    }
+  }
+}
+
+-- Telescope Highlighting --
+vim.cmd "hi TelescopeBorder guibg=None guifg=Foreground"
+vim.cmd "hi TelescopePromptBorder guibg=None guifg=Foreground"
+vim.cmd "hi TelescopeNormal guibg=None"
+vim.cmd "hi TelescopeSelection gui=inverse"
+vim.cmd "hi TelescopeSelectionCaret guibg=Foreground"
+vim.cmd "hi TelescopePromptNormal guibg=None"
+vim.cmd "hi TelescopePromptPrefix guibg=None"
+
+local find_files = function()
+  local opts = require('telescope.themes').get_dropdown {
+    borderchars = {
+      { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+      prompt = { '─', '│', '─', '│', '╭', '╮', '┤', '├'},
+      results = { '─', '│', '─', '│', '├', '┤', '╯', '╰'},
+      preview = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+    },
+    previewer = false,
+    prompt_title = false,
+    layout_config = {
+      width = 0.5
+    }
+  };
+
+  require('telescope.builtin').find_files(opts)
+end
+
+local live_grep = function()
+  local opts = require('telescope.themes').get_dropdown {
+    borderchars = {
+      { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+      prompt = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+      results = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+      preview = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
+    },
+    prompt_title = false,
+    layout_strategy = "horizontal",
+    layout_config = {
+      width = 0.8,
+      height = 0.8,
+      prompt_position = "top",
+      preview_width = 80
+    }
+  };
+
+  require('telescope.builtin').live_grep(opts)
+end
+
+vim.keymap.set('n', '<leader>ff', find_files)
+vim.keymap.set('n', '<leader>fw', live_grep)
+vim.keymap.set('n', '<leader>fn', ":enew<cr>", { silent = true })
+
+vim.keymap.set('n', '<Tab>', ":bnext<cr>", { silent = true })
+vim.keymap.set('n', '<S-Tab>', ":bprev<cr>", { silent = true })
+vim.keymap.set('n', '<leader>q', ":bdelete<cr>", { silent = true })
