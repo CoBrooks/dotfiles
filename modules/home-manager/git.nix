@@ -7,6 +7,7 @@
     ignores = [ "*~" "*.swp" ];
     extraConfig = {
       init.defaultBranch = "main";
+      core.editor = "nvim";
     };
   };
 }
