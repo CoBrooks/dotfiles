@@ -9,5 +9,6 @@
     ./sway.nix
     ./git.nix
     ./wallpaper.nix
+    ./direnv.nix
   ];
 }
