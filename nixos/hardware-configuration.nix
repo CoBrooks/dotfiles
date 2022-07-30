@@ -40,4 +40,5 @@
   # networking.interfaces.enp0s20u2.useDHCP = lib.mkDefault true;
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.opengl.enable = true;
 }

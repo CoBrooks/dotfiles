@@ -170,11 +170,23 @@ cmp.setup {
 }
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+if capabilities.document_formatting then
+  vim.cmd [[augroup Format]]
+  vim.cmd [[autocmd! * <buffer>]]
+  vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+  vim.cmd [[augroup END]]
+end
+
 local lspconfig = require('lspconfig')
 lspconfig["rust_analyzer"].setup {
   capabilities = capabilities,
   settings = {
-    ["rust-analyzer"] = { }
+    ["rust-analyzer"] = {
+      checkOnSave = {
+        command = "clippy"
+      }
+    }
   }
 };
 lspconfig["sumneko_lua"].setup {
