@@ -203,6 +203,7 @@ lspconfig["sumneko_lua"].setup {
     }
   }
 }
+lspconfig["clangd"].setup { }
 
 require('telescope').setup {
   defaults = {

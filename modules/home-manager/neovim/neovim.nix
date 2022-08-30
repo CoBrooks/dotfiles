@@ -24,6 +24,7 @@ in {
       # LSPs
       rust-analyzer 
       sumneko-lua-language-server 
+      clang-tools
       # Tree-sitter deps
       tree-sitter nodejs
       # Telescope deps
