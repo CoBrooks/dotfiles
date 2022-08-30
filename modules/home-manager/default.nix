@@ -10,5 +10,6 @@
     ./git.nix
     ./wallpaper.nix
     ./direnv.nix
+    ./firefox.nix
   ];
 }

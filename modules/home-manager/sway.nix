@@ -40,7 +40,7 @@
           fonts = {
             names = [ "Iosevka Aile" "Font Awesome 6 Free" ];
             style = "Regular";
-            size = 10.0;
+            size = 8.0;
           };
           colors = {
             background = theme.background;

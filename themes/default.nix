@@ -26,8 +26,8 @@ with builtins; {
     b = readYaml (builtins.path {
       path = (builtins.fetchGit {
         url = "https://github.com/base16-project/base16-schemes.git";
-        ref = "master";
-        rev = "99529527e7cb3d777fb6e041c2aabbe6cdec4c4c";
+        ref = "main";
+        rev = "00377807d8ec0cdd1cefe26391c656e51ac5e4b6";
       }).outPath + "/${name}.yaml";
     });
   in {
@@ -62,3 +62,4 @@ with builtins; {
     };
   };
 }
+

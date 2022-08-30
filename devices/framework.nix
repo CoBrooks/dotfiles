@@ -63,9 +63,6 @@
     initialPassword = "password";
     extraGroups = [ "wheel" "networkmanager" ];
     shell = pkgs.zsh;
-    packages = with pkgs; [
-      firefox
-    ];
   };
 
   environment.systemPackages = with pkgs; [

@@ -10,7 +10,7 @@
         normal = {
           family = "Iosevka Custom";
         };
-        size = 11.0;
+        size = 9.0;
       };
       window = {
         padding = {
