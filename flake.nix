@@ -36,6 +36,7 @@
 
   outputs = { 
     nixpkgs, 
+    nixos-hardware,
     home-manager, 
     flake-utils, 
     rust-overlay, 

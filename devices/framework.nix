@@ -6,7 +6,7 @@
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware), use something like:
     # inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.framework
+    inputs.nixos-hardware.nixosModules.framework
 
     # It's strongly recommended you take a look at
     # https://github.com/nixos/nixos-hardware

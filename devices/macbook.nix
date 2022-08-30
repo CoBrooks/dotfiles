@@ -6,7 +6,7 @@
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware), use something like:
     # inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.apple.macbook-air.6
+    inputs.nixos-hardware.nixosModules.apple-macbook-air-6
 
     # It's strongly recommended you take a look at
     # https://github.com/nixos/nixos-hardware
