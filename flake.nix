@@ -67,11 +67,27 @@
       theme = getTheme { name = "gruvbox-material-dark-medium"; };
     in rec {
       nixosConfigurations = {
-        cbrooks-laptop = nixosSystem {
+        cbrooks-framework = nixosSystem {
           inherit system pkgs;
 
           modules = [
-            ./nixos/configuration.nix
+            ./devices/framework.nix
+            ./modules/nixos
+            { 
+              environment.systemPackages = [ 
+                # Add Rust to system
+                pkgs.rust-bin.stable.latest.default 
+                pkgs.gcc
+              ];
+            }
+          ];
+          specialArgs = { inherit inputs; };
+        };
+        cbrooks-macbook = nixosSystem {
+          inherit system pkgs;
+
+          modules = [
+            ./devices/macbook.nix
             ./modules/nixos
             { 
               environment.systemPackages = [ 
@@ -86,7 +102,27 @@
       };
 
       homeConfigurations = {
-        "cbrooks@cbrooks-laptop" = homeManagerConfiguration {
+        "cbrooks@cbrooks-framework" = homeManagerConfiguration {
+          inherit pkgs;
+
+          modules = [
+            {
+              home.username = "cbrooks";
+              home.homeDirectory = "/home/cbrooks";
+
+              home.stateVersion = "22.11";
+
+              nixpkgs.config.allowUnfree = true;
+
+              programs.home-manager.enable = true;
+              systemd.user.startServices = "sd-switch";
+            }
+            ./modules/home-manager
+          ];
+
+          extraSpecialArgs = { inherit theme; };
+        };
+        "cbrooks@cbrooks-macbook" = homeManagerConfiguration {
           inherit pkgs;
 
           modules = [
