@@ -63,8 +63,7 @@
         config.allowUnfree = true;
       };
 
-      themes = import ./themes { inherit pkgs; };
-      inherit (themes) getTheme;
+      inherit (import ./themes { inherit pkgs; }) getTheme;
       theme = getTheme { name = "gruvbox-material-dark-medium"; };
     in rec {
       nixosConfigurations = {
@@ -77,7 +76,10 @@
             { 
               environment.systemPackages = [ 
                 # Add Rust to system
-                pkgs.rust-bin.stable.latest.default 
+                (pkgs.rust-bin.stable.latest.default.override {
+                  extensions = ["rust-src"];
+                  targets = ["wasm32-unknown-unknown"];
+                })
                 pkgs.gcc
               ];
             }
