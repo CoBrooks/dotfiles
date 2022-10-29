@@ -49,19 +49,39 @@
   i18n.defaultLocale = "en_US.UTF-8";
   console.font = "Lat2-Terminus16";
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   programs.sway.enable = true;
   programs.zsh.enable = true;
 
+  virtualisation.docker.enable = true;
+  virtualisation.docker.daemon.settings = {
+    ipv6 = true;
+    fixed-cidr-v6 = "2001:db8:1::/64";
+    features = {
+      buildkit = true;
+    };
+  };
+
+  # sound.enable = true;
+  # hardware.pulseaudio.enable = true;
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  xdg.portal.enable = true;
+  xdg.portal.wlr.enable = true;
+
   users.users.cbrooks = {
     isNormalUser = true;
     initialPassword = "password";
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" ];
     shell = pkgs.zsh;
   };
 
@@ -72,6 +92,9 @@
     neofetch
     tree
     wl-clipboard # Wayland copy-paste
+    ripgrep
+    bat
+    bottom
   ];
 
   environment.pathsToLink = [ "/share/zsh" ];

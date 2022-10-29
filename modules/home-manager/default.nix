@@ -5,6 +5,7 @@
     ./alacritty.nix
     ./zsh.nix
     ./neovim/neovim.nix
+    ./helix.nix
     ./i3status-rust.nix
     ./sway.nix
     ./git.nix

@@ -51,6 +51,7 @@
             block = "networkmanager";
             on_click = "alacritty -e nmtui";
             device_format = "{icon}{ap} {ips}";
+            primary_only = true;
           }
           {
             block = "speedtest";

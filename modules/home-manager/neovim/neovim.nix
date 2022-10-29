@@ -25,6 +25,7 @@ in {
       rust-analyzer 
       sumneko-lua-language-server 
       clang-tools
+      terraform-ls
       # Tree-sitter deps
       tree-sitter nodejs
       # Telescope deps

@@ -19,9 +19,11 @@ opt.relativenumber = true
 opt.expandtab = true
 opt.hidden = true
 opt.shiftwidth = 2
+opt.tabstop = 2
 opt.smartindent = true
 opt.signcolumn = "number"
 opt.updatetime = 400
+opt.mouse = ""
 
 require('indent_blankline').setup {
   show_current_context = true,
@@ -169,7 +171,7 @@ cmp.setup {
   }),
 }
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 if capabilities.document_formatting then
   vim.cmd [[augroup Format]]
@@ -207,6 +209,7 @@ lspconfig["sumneko_lua"].setup {
   }
 }
 lspconfig["clangd"].setup { }
+lspconfig["terraformls"].setup { }
 
 require('telescope').setup {
   defaults = {
