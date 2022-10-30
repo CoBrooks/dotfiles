@@ -30,6 +30,8 @@ in {
       tree-sitter nodejs
       # Telescope deps
       ripgrep fd
+      # So that markdown-preview-nvim can open a browser tab
+      xdg-utils
     ];
     plugins = with pkgs.vimPlugins; [
       # measure startup time
@@ -62,6 +64,8 @@ in {
       lspkind-nvim
       # File picker / search util
       telescope-nvim
+      # Markdown preview
+      markdown-preview-nvim
     ];
   };
 }

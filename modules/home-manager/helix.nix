@@ -3,7 +3,7 @@
   programs.helix = {
     enable = true;
     settings = {
-      theme = "gruvbox";
+      theme = "base16_transparent";
       editor = {
         mouse = false;
         line-number = "relative";
@@ -13,6 +13,7 @@
           select = "block";
         };
         file-picker.hidden = false;
+        indent-guides.render = true;
       };
     };
   };
