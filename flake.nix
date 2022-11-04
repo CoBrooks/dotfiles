@@ -58,7 +58,7 @@
       pkgs = import nixpkgs {
         inherit system;
         overlays = [ 
-          rust-overlay.overlays.default 
+          # rust-overlay.overlays.default 
           iosevka-custom.overlay
         ];
         config.allowUnfree = true;
@@ -75,12 +75,8 @@
             ./devices/framework.nix
             ./modules/nixos
             { 
-              environment.systemPackages = [ 
-                # Add Rust to system
-                (pkgs.rust-bin.stable.latest.default.override {
-                  extensions = ["rust-src"];
-                  targets = ["wasm32-unknown-unknown"];
-                })
+              environment.systemPackages = [
+                pkgs.rustup
                 pkgs.gcc
               ];
             }
