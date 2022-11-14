@@ -12,5 +12,6 @@
     ./wallpaper.nix
     ./direnv.nix
     ./firefox.nix
+    ./dunst.nix
   ];
 }
