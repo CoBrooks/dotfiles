@@ -15,11 +15,6 @@
       url = "github:numtide/flake-utils";
     };
 
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixos-hardware = {
       url = "github:nixos/nixos-hardware";
     };
@@ -41,13 +36,11 @@
     home-manager, 
     flake-utils, 
     rust-overlay, 
-    nixos-generators,
     iosevka-custom,
     ... 
   }@inputs:
     let
       # Bring some functions into scope (from builtins and other flakes)
-      inherit (builtins) attrValues;
       inherit (flake-utils.lib) eachSystemMap defaultSystems;
       inherit (nixpkgs.lib) nixosSystem;
       inherit (home-manager.lib) homeManagerConfiguration;
@@ -78,6 +71,8 @@
               environment.systemPackages = [
                 pkgs.rustup
                 pkgs.gcc
+
+                pkgs.waypipe
               ];
             }
           ];
@@ -156,10 +151,5 @@
       devShells = eachDefaultSystemMap (system: {
         default = import ./shell.nix { pkgs = packages.${system}; };
       });
-
-      iso = nixos-generators.nixosGenerate {
-        inherit pkgs;
-        format = "install-iso";
-      };
     };
 }

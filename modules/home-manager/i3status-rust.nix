@@ -1,7 +1,5 @@
 { pkgs, config, theme, ... }: 
 {
-  home.packages = [ pkgs.speedtest-cli ];
-
   home.file."${config.home.homeDirectory}/.config/i3status-rust/themes/custom.toml".text = ''
     idle_bg = "${theme.background}"
     idle_fg = "${theme.foreground}"
@@ -13,7 +11,6 @@
     warning_fg = "${theme.background}"
     critical_bg = "${theme.normal.red}"
     critical_fg = "${theme.background}"
-    separator = ""
     separator_bg = "auto"
     separator_fg = "auto"
   '';
@@ -24,13 +21,10 @@
       primary = {
         settings = {
           theme = {
-            file = "${config.home.homeDirectory}/.config/i3status-rust/themes/custom.toml";
-            overrides = {
-              separator = "";
-            };
+            theme = "${config.home.homeDirectory}/.config/i3status-rust/themes/custom.toml";
           };
           icons = {
-            name = "awesome6";
+            icons = "awesome6";
             overrides = {
               net_up = "";
               net_down = "";
@@ -39,29 +33,39 @@
         };
         blocks = [
           {
-            block = "time";
-            format = "%a %d/%m %I:%M %p";
+            block = "time"; 
+            format = " $timestamp.datetime(f:'%a %m/%d %I:%M %p') ";
+            interval = 60;
           }
           {
             block = "cpu";
             interval = 1;
-            format = "{barchart} {utilization}";
+            format = " $icon $barchart $utilization ";
           }
           {
-            block = "networkmanager";
-            on_click = "alacritty -e nmtui";
-            device_format = "{icon}{ap} {ips}";
-            primary_only = true;
+            block = "disk_space";
+            info_type = "available";
+            interval = 60;
+            path = "/";
+            warning = 20;
+            alert = 10;
           }
           {
-            block = "speedtest";
-            interval = 1800;
-            format = "{speed_down*_b:3;M} {speed_up*_b:3;M}";
+            block = "net";
+            device = "wlan0";
+            interval = 10;
+            format = " $icon $ssid ";
+          }
+          {
+            block = "sound";
+          }
+          {
+            block = "backlight";
           }
           {
             block = "battery";
             interval = 10;
-            format = "{percentage} {time}";
+            format = " $icon $percentage $time ";
           }
         ];
       };

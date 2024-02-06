@@ -1,4 +1,4 @@
-require('impatient')
+vim.loader.enable();
 
 local fn = vim.fn
 local g = vim.g
@@ -25,8 +25,21 @@ opt.signcolumn = "number"
 opt.updatetime = 400
 opt.mouse = ""
 
-require('indent_blankline').setup {
-  show_current_context = true,
+vim.filetype.add {
+  extension = {
+    tf  = 'terraform',
+    tex = 'latex',
+    h = 'c',
+    frag = 'glsl',
+    vert = 'glsl',
+    zon = 'zig',
+  }
+}
+
+g.surround_99 = "\\\1command\1{\r}"
+
+require('ibl').setup {
+  scope = { enabled = true }
 }
 
 require('nvim-treesitter.configs').setup {
@@ -48,9 +61,6 @@ require('lualine').setup {
         symbols = {
           alternate_file = ''
         },
-        filetype_names = {
-          TelescopePrompt = '',
-        }
       }
     },
     lualine_b = {},
@@ -153,7 +163,6 @@ cmp.setup {
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
     { name = "luasnip" },
-    { name = "buffer" },
   }),
   cmp.setup.cmdline('/', {
     mapping = cmp.mapping.preset.cmdline(),
@@ -171,14 +180,15 @@ cmp.setup {
   }),
 }
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+capabilities.document_formatting = false
 
-if capabilities.document_formatting then
-  vim.cmd [[augroup Format]]
-  vim.cmd [[autocmd! * <buffer>]]
-  vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
-  vim.cmd [[augroup END]]
-end
+-- if capabilities.document_formatting then
+--   vim.cmd [[augroup Format]]
+--   vim.cmd [[autocmd! * <buffer>]]
+--   vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+--   vim.cmd [[augroup END]]
+-- end
 
 local lspconfig = require('lspconfig')
 lspconfig["rust_analyzer"].setup {
@@ -189,95 +199,97 @@ lspconfig["rust_analyzer"].setup {
         allFeatures = true
       },
       checkOnSave = {
-        command = "clippy"
+        command = "clippy",
+        allTargets = false
       }
     }
   }
 };
-lspconfig["sumneko_lua"].setup {
+lspconfig["lua_ls"].setup {
   capabilities = capabilities,
   settings = {
     Lua = {
       runtime = {
         version = "LuaJIT",
-        path = runtime_path,
+      },
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME
+        }
       },
       diagnostics = {
         globals = { 'vim' },
       }
     }
   }
-}
+};
+lspconfig["tsserver"].setup { }
 lspconfig["clangd"].setup { }
 lspconfig["terraformls"].setup { }
-
-require('telescope').setup {
-  defaults = {
-    mappings = {
-      i = {
-        ["<Tab>"] = require('telescope.actions').move_selection_next,
-        ["<S-Tab>"] = require('telescope.actions').move_selection_previous
-      },
-      n = {
-        ["<Tab>"] = require('telescope.actions').move_selection_next,
-        ["<S-Tab>"] = require('telescope.actions').move_selection_previous
-      }
-    }
+lspconfig["ocamllsp"].setup { }
+lspconfig["zls"].setup {
+  capabilities = capabilities,
+  settings = {
+    semantic_tokens = "none",
+    warn_style = true,
+  }
+}
+lspconfig["nil_ls"].setup {
+  capabilities = capabilities,
+  settings = {
+    rootPatterns = {"flake.nix", ".git", "shell.nix"}
   }
 }
 
--- Telescope Highlighting --
-vim.cmd "hi TelescopeBorder guibg=None guifg=Foreground"
-vim.cmd "hi TelescopePromptBorder guibg=None guifg=Foreground"
-vim.cmd "hi TelescopeNormal guibg=None"
-vim.cmd "hi TelescopeSelection gui=inverse"
-vim.cmd "hi TelescopeSelectionCaret guibg=Foreground"
-vim.cmd "hi TelescopePromptNormal guibg=None"
-vim.cmd "hi TelescopePromptPrefix guibg=None"
-
-local find_files = function()
-  local opts = require('telescope.themes').get_dropdown {
-    borderchars = {
-      { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-      prompt = { '─', '│', '─', '│', '╭', '╮', '┤', '├'},
-      results = { '─', '│', '─', '│', '├', '┤', '╯', '╰'},
-      preview = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-    },
-    previewer = false,
-    prompt_title = false,
-    layout_config = {
-      width = 0.5
-    }
-  };
-
-  require('telescope.builtin').find_files(opts)
-end
-
-local live_grep = function()
-  local opts = require('telescope.themes').get_dropdown {
-    borderchars = {
-      { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-      prompt = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-      results = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-      preview = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
-    },
-    prompt_title = false,
-    layout_strategy = "horizontal",
-    layout_config = {
-      width = 0.8,
-      height = 0.8,
-      prompt_position = "top",
-      preview_width = 80
-    }
-  };
-
-  require('telescope.builtin').live_grep(opts)
-end
-
-vim.keymap.set('n', '<leader>ff', find_files)
-vim.keymap.set('n', '<leader>fw', live_grep)
 vim.keymap.set('n', '<leader>fn', ":enew<cr>", { silent = true })
 
 vim.keymap.set('n', '<Tab>', ":bnext<cr>", { silent = true })
 vim.keymap.set('n', '<S-Tab>', ":bprev<cr>", { silent = true })
 vim.keymap.set('n', '<leader>q', ":bdelete<cr>", { silent = true })
+
+local floaterm_open_file = function ()
+  local word = fn.expand('<cWORD>');
+
+  local parse_filepath = function (input)
+    local filename, suffix = input:match('^([^:]+):([0-9:]+)$');
+
+    if not filename then
+      return input;
+    end
+
+    if suffix:match('^%d+$') then
+      return filename, tonumber(suffix);
+    end
+
+    local line, col = suffix:match('^(%d+):(%d+)');
+    return filename, tonumber(line), tonumber(col);
+  end
+
+  local file, line, col = parse_filepath(word);
+
+  if file ~= nil and file ~= "" then
+    vim.cmd('FloatermHide');
+    vim.cmd.edit{ fn.fnameescape(file) };
+
+    if line then
+      vim.api.nvim_win_set_cursor(0, { line, col and col - 1 or 0 });
+    end
+  end
+end
+
+vim.keymap.set('t', '<Esc>', "<C-\\><C-n>", { silent = true })
+vim.keymap.set('n', '<leader>t', ":FloatermToggle<CR>", { silent = true })
+
+local group = vim.api.nvim_create_augroup("user_defined", { clear = true });
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "FloatermOpen",
+  group = group,
+  nested = true,
+  callback = function ()
+    vim.keymap.set('n', 'gf', floaterm_open_file, { buffer = true });
+  end,
+})
+
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { silent = true })

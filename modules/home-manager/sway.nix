@@ -8,10 +8,10 @@
       input = {
         "type:keyboard" = {
           xkb_layout = "us";
-          xkb_options = "caps:swapescape";
+          xkb_options = "caps:escape,altwin:swap_alt_win";
         };
       };
-      modifier = "Mod4";
+      modifier = "Mod1";
       left = "h";
       down = "j";
       up = "k";
@@ -32,6 +32,12 @@
         "*" = { 
           bg = "~/Pictures/wallpaper fill";
         };
+        "Dell Inc. DELL U3419W GDD36T2" = { 
+          scale = "1.5";
+        };
+      };
+      floating = {
+        criteria = [ { app_id = "qemu"; } ];
       };
       bars = [
         {

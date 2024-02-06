@@ -1,10 +1,10 @@
 { pkgs, config, theme, ... }: 
 let 
   nvim-base16 = pkgs.vimUtils.buildVimPlugin { name = "nvim-base16"; src = pkgs.fetchFromGitHub {
-      owner = "RRethy";
-      repo = "nvim-base16";
-      rev = "da2a27cbda9b086c201b36778e7cdfd00966627a";
-      sha256 = "RkPEcTkrnZDj9Mx2wlKX2VKsk68+/AZsyPQuJ7ezFKg=";
+      owner   = "RRethy";
+      repo    = "nvim-base16";
+      rev     = "010bedf0b7c01ab4d4e4e896a8527d97c222351d";
+      sha256  = "sha256-e1jf7HyP9nu/HQHZ0QK+o7Aljk7Hu2iK+LNw3166wn8=";
     };
   };
 in {
@@ -23,25 +23,25 @@ in {
     extraPackages = with pkgs; [
       # LSPs
       rust-analyzer 
-      sumneko-lua-language-server 
+      lua-language-server 
       clang-tools
       terraform-ls
+      nil
       # Tree-sitter deps
       tree-sitter nodejs
-      # Telescope deps
-      ripgrep fd
       # So that markdown-preview-nvim can open a browser tab
       xdg-utils
+      # LaTeX
+      texlive.combined.scheme-full
     ];
     plugins = with pkgs.vimPlugins; [
       # measure startup time
       vim-startuptime
-      # speed up startup time
-      impatient-nvim
       # color themes
       nvim-base16
+      gruvbox-material
       # syntax highlighting
-      (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+      nvim-treesitter.withAllGrammars
       # nix syntax defs
       vim-nix
       # status and tab line
@@ -62,10 +62,18 @@ in {
       cmp_luasnip
       ## menu icons
       lspkind-nvim
-      # File picker / search util
-      telescope-nvim
       # Markdown preview
       markdown-preview-nvim
+      # LaTeX preview
+      vimtex
+      # "Surround" modifier
+      vim-surround
+      # Treesitter debugging
+      playground
+      # Git gutter
+      vim-gitgutter
+      # Floating terminal
+      vim-floaterm
     ];
   };
 }

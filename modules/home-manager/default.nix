@@ -3,6 +3,7 @@
 {
   imports = [
     ./alacritty.nix
+    ./bat.nix
     ./zsh.nix
     ./neovim/neovim.nix
     ./helix.nix

@@ -29,12 +29,14 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
+  networking.enableIPv6 = lib.mkDefault true;
   # networking.interfaces.enp0s20u2.useDHCP = lib.mkDefault true;
 
+  hardware.bluetooth.enable = true;
+
+  networking.firewall.allowedTCPPorts = [ 3000 9323 ];
+
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
   hardware.opengl = let 
     # Vulkan layers
     fn = oa: {
@@ -57,8 +59,7 @@
   in with pkgs; {
     enable = true;
     driSupport32Bit = true;
-    package = (mesa.overrideAttrs fn).drivers;
-    package32 = (pkgsi686Linux.mesa.overrideAttrs fn).drivers;
+    # package = (mesa.overrideAttrs fn).drivers;
     # Video acceleration for Intel iGPUs
     extraPackages = [
       intel-media-driver

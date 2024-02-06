@@ -3,5 +3,6 @@
 {
   imports = [
     ./fonts.nix
+    ./udev.nix
   ];
 }

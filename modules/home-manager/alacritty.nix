@@ -8,14 +8,14 @@
       };
       font = {
         normal = {
-          family = "Iosevka Custom";
+          family = "Iosevka Custom Nerd Font";
         };
         size = 9.0;
       };
       window = {
         padding = {
-          x = 2.0;
-          y = 2.0;
+          x = 2;
+          y = 2;
         };
       };
       colors = theme;
